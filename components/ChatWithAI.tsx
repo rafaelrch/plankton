@@ -63,7 +63,7 @@ export default function ChatWithAI({ initialMessage, systemPrompt }: ChatWithAIP
       <div
         ref={chatRef}
         className="w-full max-w-4xl md:max-w-2xl sm:max-w-full flex flex-col gap-8 sm:gap-4 items-center justify-start pt-12 sm:pt-6 pb-8 sm:pb-4 px-4 sm:px-1 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent"
-        style={{ height: `calc(100vh - ${INPUT_HEIGHT}px)` }}
+        style={{ minHeight: `0`, maxHeight: `calc(100dvh - ${INPUT_HEIGHT}px)`, height: 'auto', paddingBottom: 88 }}
       >
         <AnimatePresence initial={false}>
           {messages.map((msg, idx) => (
@@ -113,7 +113,7 @@ export default function ChatWithAI({ initialMessage, systemPrompt }: ChatWithAIP
               <div className="flex flex-row items-start gap-4 sm:gap-2">
                 <img src={AI_AVATAR} alt="AI" className="w-10 h-10 sm:w-8 sm:h-8 rounded-full bg-zinc-700" />
                 <div className="flex flex-col items-start">
-                  <span className="text-base sm:text-sm text-zinc-400 font-normal mb-1">AI</span>
+                  <span className="text-base sm:text-sm text-zinc-400 font-normal mb-1">Plankton Wolf</span>
                   <div className="bg-zinc-700 text-zinc-100 rounded-2xl rounded-bl-none px-6 py-4 sm:px-3 sm:py-2 text-base sm:text-sm font-normal max-w-[90vw] md:max-w-[420px] animate-pulse break-words">
                     Digitando...
                   </div>
