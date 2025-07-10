@@ -34,25 +34,36 @@ export default function ChatWithAI({ initialMessage, systemPrompt }: ChatWithAIP
 
   async function sendToOpenAI(message: string) {
     setLoading(true);
+    let timeoutId: NodeJS.Timeout | null = null;
     try {
+      // Timeout de segurança: 15 segundos
+      timeoutId = setTimeout(() => {
+        setLoading(false);
+        setMessages((msgs) => [...msgs, { sender: "ai", text: "Tempo de resposta excedido. Tente novamente." }]);
+      }, 15000);
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message }),
       });
+      if (timeoutId) clearTimeout(timeoutId);
       const data = await res.json();
       const aiText = data.choices?.[0]?.message?.content || "Desculpe, não entendi.";
       setMessages((msgs) => [...msgs, { sender: "ai", text: aiText }]);
     } catch (e) {
+      if (timeoutId) clearTimeout(timeoutId);
       setMessages((msgs) => [...msgs, { sender: "ai", text: "Erro ao conectar com a IA." }]);
     } finally {
       setLoading(false);
     }
   }
 
-  function handleSend(e: React.FormEvent) {
-    e.preventDefault();
-    if (!input.trim()) return;
+  function handleSend(e?: React.FormEvent | React.MouseEvent) {
+    if (e) e.preventDefault();
+    if (!input.trim()) {
+      console.log('Input vazio, não enviando');
+      return;
+    }
     setMessages((msgs) => [...msgs, { sender: "user", text: input }]);
     sendToOpenAI(input);
     setInput("");
@@ -141,7 +152,12 @@ export default function ChatWithAI({ initialMessage, systemPrompt }: ChatWithAIP
             <button
               type="submit"
               disabled={loading || !input.trim()}
-              className={`absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 sm:h-7 sm:w-7 rounded-full transition duration-200 flex items-center justify-center ${input ? 'bg-black text-white' : 'bg-zinc-800 text-zinc-400'} disabled:bg-zinc-800`}
+              title="Enviar mensagem"
+              onClick={handleSend}
+              role="button"
+              tabIndex={0}
+              style={{ zIndex: 1000 }}
+              className={`absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 sm:h-7 sm:w-7 rounded-full transition duration-200 flex items-center justify-center ${input ? 'bg-black text-white cursor-pointer' : 'bg-zinc-800 text-zinc-400'} disabled:bg-zinc-800 disabled:cursor-not-allowed`}
             >
               <motion.svg
                 xmlns="http://www.w3.org/2000/svg"
