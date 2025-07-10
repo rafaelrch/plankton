@@ -3,9 +3,9 @@ import './globals.css'
 import { ThemeProvider } from "../components/theme-provider";
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'Plankton Wolf (Beta)',
+  description: 'Prepare-se para vender',
+  generator: 'Grupo R.A.T',
 }
 
 export default function RootLayout({
