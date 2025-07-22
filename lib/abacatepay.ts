@@ -1,5 +1,10 @@
 const ABACATE_API_URL = 'https://api.abacatepay.com';
-const ABACATE_TOKEN = 'abc_dev_Y1JJq0AwmTr4UX6ytEBTq5nc';
+const ABACATE_TOKEN = process.env.ABACATE_TOKEN || 'abc_dev_Y1JJq0AwmTr4UX6ytEBTq5nc';
+
+// Validar se o token está configurado
+if (!ABACATE_TOKEN) {
+  console.error('ABACATE_TOKEN não está configurado nas variáveis de ambiente');
+}
 
 export interface AbacateCustomer {
   name: string;
@@ -60,6 +65,9 @@ class AbacatePayAPI {
   ): Promise<AbacateResponse<T>> {
     const url = `${this.baseURL}${endpoint}`;
     
+    console.log('Fazendo requisição para:', url);
+    console.log('Token usado:', this.token.substring(0, 10) + '...');
+    
     const config: RequestInit = {
       headers: {
         'accept': 'application/json',
@@ -73,6 +81,8 @@ class AbacatePayAPI {
     try {
       const response = await fetch(url, config);
       const data = await response.json();
+      
+      console.log('Resposta da API:', { status: response.status, data });
       
       if (!response.ok) {
         throw new Error(data.error || `HTTP ${response.status}`);
