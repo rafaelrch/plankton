@@ -4,6 +4,7 @@ import { User } from "lucide-react";
 
 const AI_AVATAR = "https://ui-avatars.com/api/?name=AI&background=888&color=fff";
 const USER_AVATAR = "https://ui-avatars.com/api/?name=Ol%C3%A1+chat&background=888&color=fff";
+const brochat: string = "Rafel Rocha";
 
 type ChatWithAIProps = {
   initialMessage: string;
@@ -17,6 +18,8 @@ export default function ChatWithAI({ initialMessage, systemPrompt }: ChatWithAIP
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
+
+
 
   useEffect(() => {
     if (initialMessage && messages.length === 0) {
