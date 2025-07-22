@@ -1,6 +1,9 @@
 import React from "react";
 import LoginForm from "../../components/ui/login-form";
 
+// Forçar renderização dinâmica para evitar erro de build
+export const dynamic = 'force-dynamic';
+
 export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-900 flex">

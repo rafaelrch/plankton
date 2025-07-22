@@ -1,6 +1,9 @@
 import React from "react";
 import RegisterForm from "../../components/ui/register-form";
 
+// Forçar renderização dinâmica para evitar erro de build
+export const dynamic = 'force-dynamic';
+
 export default function CadastroPage() {
   return (
     <div className="min-h-screen bg-gray-900 flex">
